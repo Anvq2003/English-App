@@ -1,0 +1,30 @@
+.home {
+  .home__stats {
+    color: var(--color-muted);
+  }
+
+  .home__games {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .home__game {
+    display: grid;
+    gap: 4px;
+    padding: 16px;
+    font: inherit;
+    color: inherit;
+    text-align: left;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    cursor: pointer;
+
+    &:hover,
+    &:focus-visible {
+      border-color: var(--color-accent);
+    }
+  }
+}

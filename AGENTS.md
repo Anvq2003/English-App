@@ -15,8 +15,11 @@ Web app học từ vựng tiếng Anh. Chạy hoàn toàn trên client, không b
 - Vite + React + TypeScript (không React Compiler, không Next.js, không SSR).
 - Lưu trữ: `localStorage` (bộ từ vựng nhỏ, đủ dùng). Có thể nâng lên IndexedDB nếu cần.
 - State: React Context hoặc `zustand`, không Redux.
-- Style: Tailwind hoặc CSS thuần (chốt khi scaffold).
-- Phát âm: Web Speech API (`speechSynthesis`, `lang: en-US`). SFX tắt mặc định.
+- Style: CSS thuần dùng native nesting (không Tailwind, không SCSS), mỗi component/page 1 file `style.css` cạnh file tsx. Biến dùng CSS custom properties (`--color-accent`), đặt chung ở `src/styles/`. Quy ước:
+  - Class viết đầy đủ kiểu BEM (`.flashcard__front`), **không** dùng `&__x` / `&-x` để nối tên.
+  - `&` chỉ dùng cho pseudo/state: `&:hover`, `&:focus`, `&::after`, `&.is-active`.
+  - Lồng các selector liên quan trong class gốc của component (1 cấp), vẫn viết tên class đầy đủ.
+  - Ví dụ: `.flashcard { .flashcard__front { &:hover { ... } } .flashcard__back { &.is-active { ... } } }`.- Phát âm: Web Speech API (`speechSynthesis`, `lang: en-US`). SFX tắt mặc định.
 - Package manager: pnpm.
 
 ## 3. Kiến trúc: tách core khỏi game
@@ -58,7 +61,7 @@ Nguyên tắc:
       "phonetic": "/əˈbændən/",
       "pos": "verb",
       "examples": [
-        { "en": "He abandoned his plan.", "vi": "Anh ấy từ bỏ kế hoạch của mình." }
+        { "en": "He abandoned his plan." }
       ],
       "altAnswers": ["abandons", "abandoned", "abandoning"],
       "tags": ["ielts"],
@@ -77,6 +80,7 @@ Nguyên tắc:
 
 - **Bắt buộc:** `word`, `meaning`.
 - **Tuỳ chọn:** `phonetic`, `pos`, `examples` (tối đa 3), `altAnswers`, `tags`, `progress`.
+- `examples[i]`: `en` bắt buộc, `vi` tuỳ chọn (không có thì không hiện bản dịch).
 - File user viết tay hoặc AI sinh ra có thể bỏ `progress`. App tự khởi tạo.
 - Khi export, file chứa cả vocab lẫn progress. Đây cũng là bản backup.
 - Mọi field lạ phải được **giữ nguyên** khi import rồi export, để mở rộng schema về sau mà không mất dữ liệu.
@@ -121,8 +125,10 @@ Thứ tự làm: **Flashcard → Gõ theo nghĩa → Nghe và gõ → Điền ch
 
 ### 6.1 Flashcard (làm trước)
 
-- **Mặt trước:** từ tiếng Anh, kèm nút phát âm.
-- **Mặt sau:** nghĩa tiếng Việt, phiên âm, tối đa 3 câu ví dụ (mỗi câu gồm EN và bản dịch VI nếu có).
+- **Hai chiều, user chọn trước phiên** (mặc định Anh → Việt):
+  - Anh → Việt: mặt trước là từ + nút phát âm; mặt sau là nghĩa, phiên âm, ví dụ.
+  - Việt → Anh (đảo chiều): mặt trước là nghĩa; mặt sau là từ + phiên âm + nút phát âm + ví dụ.
+- Ví dụ: tối đa 3 câu, mỗi câu có `en`, hiện `vi` nếu có.
 - User lật thẻ rồi tự chấm: **Biết** (đúng) hoặc **Chưa biết** (sai). Kết quả gọi `report()`.
 - Phím tắt: `Space` lật thẻ, `1`/`←` chưa biết, `2`/`→` biết.
 - Kết thúc phiên: hiện tổng kết (số từ, đúng/sai, từ sai nhiều nhất) và nút download JSON.
@@ -152,9 +158,6 @@ Thứ tự làm: **Flashcard → Gõ theo nghĩa → Nghe và gõ → Điền ch
 
 ## 8. Câu hỏi còn mở
 
-- Flashcard dùng 2 nút (Biết / Chưa biết) hay 3 nút (thêm Mơ hồ)? Mặc định hiện tại: 2 nút.
-- Flashcard có cần đảo chiều (hiện nghĩa trước, đoán từ) không? Mặc định: chưa.
-- Câu ví dụ có kèm bản dịch tiếng Việt không (`vi`)? Mặc định: có, nhưng tuỳ chọn.
-- Một từ nhiều nghĩa: `meaning` là 1 chuỗi (ngăn cách bằng dấu phẩy) hay mảng? Mặc định: 1 chuỗi.
+- Đã chốt: Flashcard 2 nút (Biết / Chưa biết), cho phép đảo chiều; `meaning` là 1 chuỗi; `vi` trong ví dụ tuỳ chọn; Context + CSS thuần + Vitest; Gộp: nội dung lấy từ file mới, progress giữ bản `lastSeen` mới hơn.
 - Ai tạo file từ vựng: user viết tay hay nhờ AI sinh? Nếu nhờ AI, cần thêm prompt mẫu trong app.
 - Từ biến thể (abandoned, abandons) trong game Điền chỗ trống: dùng `altAnswers` có đủ không?

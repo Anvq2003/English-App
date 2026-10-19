@@ -1,0 +1,31 @@
+{
+  "version": 1,
+  "name": "Sample",
+  "words": [
+    {
+      "word": "abandon",
+      "meaning": "từ bỏ, bỏ rơi",
+      "phonetic": "/əˈbændən/",
+      "pos": "verb",
+      "examples": [{ "en": "He abandoned his plan.", "vi": "Anh ấy từ bỏ kế hoạch của mình." }],
+      "altAnswers": ["abandons", "abandoned", "abandoning"]
+    },
+    {
+      "word": "benefit",
+      "meaning": "lợi ích",
+      "phonetic": "/ˈbenɪfɪt/",
+      "pos": "noun",
+      "examples": [{ "en": "Regular exercise has many benefits." }],
+      "altAnswers": ["benefits"]
+    },
+    {
+      "word": "challenge",
+      "meaning": "thử thách",
+      "phonetic": "/ˈtʃælɪndʒ/",
+      "pos": "noun",
+      "examples": [{ "en": "Learning a language is a big challenge." }]
+    },
+    { "word": "decline", "meaning": "suy giảm; từ chối", "pos": "verb" },
+    { "word": "efficient", "meaning": "hiệu quả", "phonetic": "/ɪˈfɪʃnt/", "pos": "adjective" }
+  ]
+}

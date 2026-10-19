@@ -1,0 +1,25 @@
+.manage {
+  .manage__block {
+    margin-bottom: 24px;
+    padding: 16px;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+  }
+
+  .manage__modes {
+    display: grid;
+    gap: 4px;
+    margin-bottom: 12px;
+  }
+
+  .manage__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .manage__message {
+    color: var(--color-good);
+  }
+}
